@@ -1,0 +1,144 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# Compilação e dependências do Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+
+# Configurações do IntelliJ IDEA
+/.idea/
+*.iml
+*.iws
+out/
+
+# Logs e arquivos temporários
+logs/
+*.log
+hs_err_pid*
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configuração do ambiente
+.env
+*.local
+
+# Arquivos sensíveis
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# Cache do wrapper do Maven
+/.m2/repository/
+
+# Dependências do Gradle (caso seja usado no lugar do Maven)
+/.gradle/
+/build/
+
+# Arquivos gerados pelo Spring Boot
+/*.jar
+/*.war
+
+# Docker
+/docker/
+*.pid
+
+# Testes e relatórios
+/test-output/
+/cucumber-reports/
+
+# Cobertura de código
+/coverage/
+/jacoco.exec
+
+
+#=================================================== From chatGPT
+
+# Compilação e dependências do Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+
+# Configurações do IntelliJ IDEA
+/.idea/
+*.iml
+*.iws
+out/
+
+# Logs e arquivos temporários
+logs/
+*.log
+hs_err_pid*
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configuração do ambiente
+.env
+*.local
+
+# Arquivos sensíveis
+application.properties
+application.yml
+application.yaml
+application-*.properties
+application-*.yml
+application-*.yaml
+
+# Cache do wrapper do Maven
+/.m2/repository/
+
+# Dependências do Gradle (caso seja usado no lugar do Maven)
+/.gradle/
+/build/
+
+# Arquivos gerados pelo Spring Boot
+/*.jar
+/*.war
+
+# Docker
+/docker/
+*.pid
+
+# Testes e relatórios
+/test-output/
+/cucumber-reports/
+
+# Cobertura de código
+/coverage/
+/jacoco.exec
