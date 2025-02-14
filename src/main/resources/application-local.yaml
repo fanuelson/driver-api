@@ -1,0 +1,9 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/driver-api-db
+  kafka:
+    bootstrap-servers: localhost:9092

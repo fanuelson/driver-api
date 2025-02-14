@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/driver-api-db
+  kafka:
+    bootstrap-servers: kafka:9092

@@ -113,12 +113,12 @@ Thumbs.db
 *.local
 
 # Arquivos sensíveis
-application.properties
-application.yml
-application.yaml
-application-*.properties
-application-*.yml
-application-*.yaml
+#application.properties
+#application.yml
+#application.yaml
+#application-*.properties
+#application-*.yml
+application-prod.yaml
 
 # Cache do wrapper do Maven
 /.m2/repository/
