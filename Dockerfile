@@ -6,7 +6,9 @@ WORKDIR /app
 
 # Copia o arquivo de configuração do Maven (caso exista) para otimizar cache de dependências
 COPY pom.xml ./
-RUN mvn dependency:go-offline
+
+#Para Cache das dependencias
+# RUN mvn dependency:go-offline
 
 # Copia o código-fonte do projeto para dentro do container
 COPY src ./src

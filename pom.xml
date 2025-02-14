@@ -31,6 +31,7 @@
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.springdoc.version>2.0.0</org.springdoc.version>
         <org.mockito.version>5.2.0</org.mockito.version>
+        <commons.codec.version>1.18.0</commons.codec.version>
     </properties>
     <dependencies>
         <dependency>
@@ -72,6 +73,11 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!-- Dependência principal do MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -87,12 +93,21 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Mockito para mocks-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>${org.mockito.version}</version> <!-- Última versão estável -->
             <scope>test</scope>
         </dependency>
+
+        <!-- Geração de hash deterministico-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec.version}</version>
+        </dependency>
+
 
     </dependencies>
     <build>

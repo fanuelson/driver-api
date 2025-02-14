@@ -7,3 +7,18 @@ spring:
       uri: mongodb://localhost:27017/driver-api-db
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      retries: 3
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      batch-size: 16384
+      buffer-memory: 33554432
+      acks: all
+    consumer:
+      group-id: driver-api-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+    topics:
+      driverCreate: driver-api.driver.create
+      driverCreatedBroadcast: driver-api.driver.created.broadcast
