@@ -1,4 +1,4 @@
-package com.lab.driverapi.inputs.http.external;
+package com.lab.driverapi.gateways.inputs.http.external;
 
 import com.lab.driverapi.usecases.HealthCheckUseCase;
 import lombok.RequiredArgsConstructor;

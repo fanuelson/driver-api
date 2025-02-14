@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  api:
+  driver-api:
     build: .
     ports:
       - "8080:8080"
@@ -14,11 +14,11 @@ services:
     ports:
       - "27017:27017"
   zookeeper:
-    image: confluentinc/cp-zookeeper:3.7.0
+    image: confluentinc/cp-zookeeper:7.8.1
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
   kafka:
-    image: confluentinc/cp-kafka:3.9.0
+    image: confluentinc/cp-kafka:7.8.1
     depends_on:
       - zookeeper
     ports:
