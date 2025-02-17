@@ -24,7 +24,7 @@ resilience4j:
         slidingWindowSize: 8
         failureRateThreshold: 50
         waitDurationInOpenState: 5s
-        permittedNumberOfCallsInHalfOpenState: 3 # asd
+        permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
         minimumNumberOfCalls: 4
         automaticTransitionFromOpenToHalfOpenEnabled: true
     instances:
@@ -33,7 +33,7 @@ resilience4j:
   timelimiter:
     configs:
       default:
-        timeoutDuration: 5s
+        timeoutDuration: 5s # Limite máximo de tempo de resposta da requisoção, se passar o fallback é executado (Cirtuito aberto)
     instances:
       MockApiFeignClient:
         baseConfig: default

@@ -23,3 +23,10 @@ services:
       - "4010:4010"
     environment:
       - PRISM_LOG_LEVEL=warn
+
+  delay-api:
+    image: ffnunes/delay-api:2.0.0
+    ports:
+      - "4020:4020"
+    environment:
+      PORT: 4020
