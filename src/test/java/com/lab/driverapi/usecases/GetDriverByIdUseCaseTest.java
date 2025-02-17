@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-public class GetDriverByIdUseCaseTest extends BaseTest {
+class GetDriverByIdUseCaseTest extends BaseTest {
 
   @InjectMocks private GetDriverByIdUseCase getDriverByIdUseCase;
 
