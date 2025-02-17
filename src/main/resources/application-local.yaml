@@ -13,7 +13,7 @@ spring:
         config:
           default:
             connectTimeout: 1000      # Tempo limite para conexão (ms)
-            readTimeout: 2000         # Tempo limite para resposta (ms)
+            readTimeout: 7000         # Tempo limite para resposta (ms)
             loggerLevel: basic
 
 resilience4j:
@@ -30,12 +30,16 @@ resilience4j:
     instances:
       MockApiFeignClient:
         baseConfig: default
+      DelayApiFeignClient:
+        baseConfig: default
   timelimiter:
     configs:
       default:
         timeoutDuration: 5s # Limite máximo de tempo de resposta da requisoção, se passar o fallback é executado (Cirtuito aberto)
     instances:
       MockApiFeignClient:
+        baseConfig: default
+      DelayApiFeignClient:
         baseConfig: default
 
 

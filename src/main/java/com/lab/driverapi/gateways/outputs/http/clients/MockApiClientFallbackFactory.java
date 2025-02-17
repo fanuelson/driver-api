@@ -16,8 +16,8 @@ public class MockApiClientFallbackFactory implements FallbackFactory<MockApiClie
     return new MockApiClient() {
       @Override
       public MockApiResponse getHello() {
-        log.warn("Executando fallback para Feign Client, exception: {}", throwable.getMessage());
-        return new MockApiResponse("Hello Feign fallback");
+        log.warn("Executando fallback para Client MOCK-API, exception: {}", throwable.getMessage());
+        return new MockApiResponse("Hello MOCK-API client fallback");
       }
     };
   }
