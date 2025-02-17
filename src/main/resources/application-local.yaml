@@ -5,3 +5,86 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/driver-api-db
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 1000      # Tempo limite para conexão (ms)
+            readTimeout: 2000         # Tempo limite para resposta (ms)
+            loggerLevel: basic
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 8
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3 # asd
+        minimumNumberOfCalls: 4
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+    instances:
+      MockApiFeignClient:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 5s
+    instances:
+      MockApiFeignClient:
+        baseConfig: default
+
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: true
+
+#management.health.circuitbreakers.enabled: true
+#management.health.ratelimiters.enabled: true
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health,info,metrics,actuator,resilience4j*
+
+
+
+
+
+
+#            circuitBreaker:
+#              enabled: true
+#              # Configurações do Circuit Breaker
+#              slidingWindowType: COUNT_BASED  # Usando a janela baseada no número de chamadas
+#              slidingWindowSize: 5  # Número de chamadas consideradas
+#              failureRateThreshold: 50  # Taxa de falhas em % para abrir o circuito
+#              waitDurationInOpenState: 10000ms  # Tempo que o circuito ficará aberto
+#              minimumNumberOfCalls: 10  # Número mínimo de chamadas para calcular falhas
+#              permittedNumberOfCallsInHalfOpenState: 5 # Número de chamadas permitidas no estado Half-Open
+
+#springdoc:
+#  swagger-ui:
+#    enabled: true  # Habilita o Swagger UI
+#    path: /swagger-ui/index.html  # Definindo o caminho de acesso ao Swagger UI
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      mockApiFeignClient:
+#        sliding-window-type: COUNT_BASED
+#        sliding-window-size: 5                   # Janela de 5 chamadas
+#        failure-rate-threshold: 50              # Abre o circuito se 50% falharem
+#        wait-duration-in-open-state: 10s        # Tempo em estado aberto
+#        permitted-number-of-calls-in-half-open-state: 2
+#        automatic-transition-from-open-to-half-open-enabled: true
+#  retry:
+#    instances:
+#      mockApiFeignClient:
+#        max-attempts: 3                         # Tenta 3 vezes
+#        wait-duration: 2s                       # Espera 2 segundos entre tentativas

@@ -1,6 +1,6 @@
 package com.lab.driverapi.usecases;
 
-import com.lab.driverapi.gateways.outputs.DriverDataGateway;
+import com.lab.driverapi.gateways.outputs.mongodb.DriverDataGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

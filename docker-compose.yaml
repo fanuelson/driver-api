@@ -8,7 +8,18 @@ services:
       - mongo
     environment:
       SPRING_PROFILES_ACTIVE: docker
+
   mongo:
     image: mongo:8.0
     ports:
       - "27017:27017"
+
+  mock-api:
+    image: stoplight/prism:4
+    command: mock -h 0.0.0.0 /tmp/api.yaml
+    volumes:
+      - ./src/main/resources/open-api-mocks/api.yaml:/tmp/api.yaml
+    ports:
+      - "4010:4010"
+    environment:
+      - PRISM_LOG_LEVEL=warn
