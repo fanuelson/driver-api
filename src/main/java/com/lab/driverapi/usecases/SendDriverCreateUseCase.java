@@ -1,7 +1,7 @@
 package com.lab.driverapi.usecases;
 
 import com.lab.driverapi.domain.Driver;
-import com.lab.driverapi.gateways.outputs.SendDriverCreateGateway;
+import com.lab.driverapi.gateways.outputs.kafka.SendDriverCreateGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

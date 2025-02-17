@@ -1,4 +1,4 @@
-package com.lab.driverapi.gateways.outputs;
+package com.lab.driverapi.gateways.outputs.mongodb;
 
 import com.lab.driverapi.domain.Driver;
 import java.util.Optional;

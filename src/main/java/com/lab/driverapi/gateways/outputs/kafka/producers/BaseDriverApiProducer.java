@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DriverApiKafkaProducer {
+public class BaseDriverApiProducer {
 
   private final KafkaTemplate<String, String> kafkaTemplate;
 

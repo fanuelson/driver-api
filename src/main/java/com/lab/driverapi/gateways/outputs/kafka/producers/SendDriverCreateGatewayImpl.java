@@ -2,7 +2,7 @@ package com.lab.driverapi.gateways.outputs.kafka.producers;
 
 import com.lab.driverapi.configuration.kafka.TopicProperties;
 import com.lab.driverapi.domain.Driver;
-import com.lab.driverapi.gateways.outputs.SendDriverCreateGateway;
+import com.lab.driverapi.gateways.outputs.kafka.SendDriverCreateGateway;
 import com.lab.driverapi.gateways.outputs.kafka.mappers.DriverResourceKafkaMapper;
 import com.lab.driverapi.utils.JsonUtils;
 import com.lab.driverapi.utils.KafkaKeyGeneratorUtils;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SendDriverCreateGatewayKafkaImpl implements SendDriverCreateGateway {
-  private final DriverApiKafkaProducer driverApiKafkaProducer;
+public class SendDriverCreateGatewayImpl implements SendDriverCreateGateway {
+  private final BaseDriverApiProducer baseDriverApiProducer;
   private final TopicProperties topicProperties;
   private final DriverResourceKafkaMapper driverResourceKafkaMapper;
   private final JsonUtils jsonUtils;
@@ -23,6 +23,6 @@ public class SendDriverCreateGatewayKafkaImpl implements SendDriverCreateGateway
     val key = KafkaKeyGeneratorUtils.generateKey(jsonUtils.toJson(driver));
     val driverResource = driverResourceKafkaMapper.toResource(driver);
     val driverResourceJson = jsonUtils.toJson(driverResource);
-    driverApiKafkaProducer.sendMessage(topic, key, driverResourceJson);
+    baseDriverApiProducer.sendMessage(topic, key, driverResourceJson);
   }
 }

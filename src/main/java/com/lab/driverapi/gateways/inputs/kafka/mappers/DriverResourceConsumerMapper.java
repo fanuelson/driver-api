@@ -5,7 +5,7 @@ import com.lab.driverapi.gateways.inputs.kafka.resources.DriverResource;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface DriverResourceKafkaConsumerMapper {
+public interface DriverResourceConsumerMapper {
 
     Driver toDomain(DriverResource driverResource);
 }

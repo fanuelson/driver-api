@@ -1,6 +1,6 @@
 package com.lab.driverapi.gateways.inputs.kafka.consumers;
 
-import com.lab.driverapi.gateways.inputs.kafka.mappers.DriverResourceKafkaConsumerMapper;
+import com.lab.driverapi.gateways.inputs.kafka.mappers.DriverResourceConsumerMapper;
 import com.lab.driverapi.gateways.inputs.kafka.resources.DriverResource;
 import com.lab.driverapi.usecases.CreateDriverUseCase;
 import com.lab.driverapi.utils.JsonUtils;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DriverCreateConsumer {
   private final CreateDriverUseCase createDriverUseCase;
-  private final DriverResourceKafkaConsumerMapper driverResourceKafkaConsumerMapper;
+  private final DriverResourceConsumerMapper driverResourceConsumerMapper;
   private final JsonUtils jsonUtils;
 
   @KafkaListener(
@@ -40,7 +40,7 @@ public class DriverCreateConsumer {
 
     try {
       val driverResource = jsonUtils.toObject(message, DriverResource.class);
-      val driver = driverResourceKafkaConsumerMapper.toDomain(driverResource);
+      val driver = driverResourceConsumerMapper.toDomain(driverResource);
       val driverSaved = createDriverUseCase.execute(driver);
       // TODO Implementar o send para o topic driverCreatedBroadcast
       log.info(
