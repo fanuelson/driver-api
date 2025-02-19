@@ -2,7 +2,7 @@ package com.lab.driverapi.usecases;
 
 import com.lab.driverapi.domain.Driver;
 import com.lab.driverapi.exceptions.DriverNotFoundException;
-import com.lab.driverapi.gateways.outputs.DriverDataGateway;
+import com.lab.driverapi.gateways.outputs.mongodb.DriverDataGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

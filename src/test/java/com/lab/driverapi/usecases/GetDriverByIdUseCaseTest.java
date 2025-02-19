@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 import com.lab.driverapi.builders.DriverBuilder;
 import com.lab.driverapi.common.BaseTest;
 import com.lab.driverapi.exceptions.DriverNotFoundException;
-import com.lab.driverapi.gateways.outputs.DriverDataGateway;
+import com.lab.driverapi.gateways.outputs.mongodb.DriverDataGateway;
 import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.Test;

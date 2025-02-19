@@ -1,13 +1,11 @@
 package com.lab.driverapi.gateways.outputs.mongodb;
 
 import com.lab.driverapi.domain.Driver;
-import com.lab.driverapi.gateways.outputs.DriverDataGateway;
 import com.lab.driverapi.gateways.outputs.mongodb.mappers.driver.DriverMapper;
 import com.lab.driverapi.gateways.outputs.mongodb.repositories.DriverRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

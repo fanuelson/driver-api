@@ -1,4 +1,4 @@
-package com.lab.driverapi.configuration.handlers.exceptions;
+package com.lab.driverapi.gateways.inputs.http.handlers.exceptions;
 
 
 import com.lab.driverapi.exceptions.ApiException;

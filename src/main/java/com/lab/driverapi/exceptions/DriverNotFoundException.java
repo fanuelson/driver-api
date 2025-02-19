@@ -7,6 +7,6 @@ import org.springframework.http.HttpStatus;
 public class DriverNotFoundException extends ApiException {
 
   public DriverNotFoundException(String driverId) {
-    super("Driver with id %s not found".formatted(driverId), HttpStatus.NOT_FOUND);
+    super("Driver not found with id %s".formatted(driverId), HttpStatus.NOT_FOUND);
   }
 }
