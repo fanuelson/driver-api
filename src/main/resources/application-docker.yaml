@@ -2,3 +2,64 @@ spring:
   data:
     mongodb:
       uri: mongodb://mongo:27017/driver-api-db
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 1000      # Tempo limite para conexão (ms)
+            readTimeout: 7000         # Tempo limite para resposta (ms)
+            loggerLevel: basic
+
+management:
+  endpoints:
+    web:
+      exposure.include: '*'
+  endpoint:
+    health.show-details: always
+  health:
+    circuitbreakers.enabled: true
+    ratelimiters.enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 8
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
+        minimumNumberOfCalls: 4
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+    instances:
+      MockApiFeignClient:
+        baseConfig: default
+      DelayApiFeignClient:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 5s           # Limite máximo de tempo de resposta da requisoção, se passar então Cirtuito aberto
+    instances:
+      MockApiFeignClient:
+        baseConfig: default
+      DelayApiFeignClient:
+        baseConfig: default
+  retry:
+    configs:
+      default:
+        max-attempts: 3               # Tenta 3 vezes
+        wait-duration: 2s             # Espera 2 segundos entre tentativas
+    instances:
+      mockApiFeignClient:
+        DelayApiFeignClient:
+          baseConfig: default
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: true

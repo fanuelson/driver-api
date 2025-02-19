@@ -16,6 +16,16 @@ spring:
             readTimeout: 7000         # Tempo limite para resposta (ms)
             loggerLevel: basic
 
+management:
+  endpoints:
+    web:
+      exposure.include: '*'
+  endpoint:
+    health.show-details: always
+  health:
+    circuitbreakers.enabled: true
+    ratelimiters.enabled: true
+
 resilience4j:
   circuitbreaker:
     configs:
@@ -23,7 +33,7 @@ resilience4j:
         registerHealthIndicator: true
         slidingWindowSize: 8
         failureRateThreshold: 50
-        waitDurationInOpenState: 5s
+        waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
         minimumNumberOfCalls: 4
         automaticTransitionFromOpenToHalfOpenEnabled: true
@@ -35,60 +45,20 @@ resilience4j:
   timelimiter:
     configs:
       default:
-        timeoutDuration: 5s # Limite máximo de tempo de resposta da requisoção, se passar o fallback é executado (Cirtuito aberto)
+        timeoutDuration: 5s           # Limite máximo de tempo de resposta da requisoção, se passar então Cirtuito aberto
     instances:
       MockApiFeignClient:
         baseConfig: default
       DelayApiFeignClient:
         baseConfig: default
+  retry:
+    configs:
+      default:
+        max-attempts: 3               # Tenta 3 vezes
+        wait-duration: 2s             # Espera 2 segundos entre tentativas
+    instances:
+      mockApiFeignClient:
+        DelayApiFeignClient:
+          baseConfig: default
 
 
-management.endpoints.web.exposure.include: '*'
-management.endpoint.health.show-details: always
-
-management.health.circuitbreakers.enabled: true
-management.health.ratelimiters.enabled: true
-
-#management.health.circuitbreakers.enabled: true
-#management.health.ratelimiters.enabled: true
-
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: health,info,metrics,actuator,resilience4j*
-
-
-
-
-
-
-#            circuitBreaker:
-#              enabled: true
-#              # Configurações do Circuit Breaker
-#              slidingWindowType: COUNT_BASED  # Usando a janela baseada no número de chamadas
-#              slidingWindowSize: 5  # Número de chamadas consideradas
-#              failureRateThreshold: 50  # Taxa de falhas em % para abrir o circuito
-#              waitDurationInOpenState: 10000ms  # Tempo que o circuito ficará aberto
-#              minimumNumberOfCalls: 10  # Número mínimo de chamadas para calcular falhas
-#              permittedNumberOfCallsInHalfOpenState: 5 # Número de chamadas permitidas no estado Half-Open
-
-#springdoc:
-#  swagger-ui:
-#    enabled: true  # Habilita o Swagger UI
-#    path: /swagger-ui/index.html  # Definindo o caminho de acesso ao Swagger UI
-#resilience4j:
-#  circuitbreaker:
-#    instances:
-#      mockApiFeignClient:
-#        sliding-window-type: COUNT_BASED
-#        sliding-window-size: 5                   # Janela de 5 chamadas
-#        failure-rate-threshold: 50              # Abre o circuito se 50% falharem
-#        wait-duration-in-open-state: 10s        # Tempo em estado aberto
-#        permitted-number-of-calls-in-half-open-state: 2
-#        automatic-transition-from-open-to-half-open-enabled: true
-#  retry:
-#    instances:
-#      mockApiFeignClient:
-#        max-attempts: 3                         # Tenta 3 vezes
-#        wait-duration: 2s                       # Espera 2 segundos entre tentativas
