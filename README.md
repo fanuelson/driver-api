@@ -1,11 +1,29 @@
 # driver-api
 
-# Project example simple saving direct to mongo
+# Simple Project to test resilience patterns with Resilience4j
+
+>[!TIP]
+>Check branchs to see new implementations
+
+
+## 2 mocked APIs called with FeignClient
+
+1. **MockApi GET /hello**
+    1. Check for ```/resources/open-api-mocks/api.yaml```
+    2. Check also ```docker-compose.yaml``` for the **image: stoplight/prism:4**
+    3. ```GET /hello -> { message: "Hello World" }``` 
+      
+2. **DelayApi GET /delay/{delay}**
+   1. Just pass de **delay param** and the api will respond after that time in milliseconds
+   2. Check also ```docker-compose.yaml``` for the **image: ffnunes/delay-api:2.0.0**
+   3. ```GET /delay/500 -> waits 0.5s -> { message: "Hello World" }```
+   4. ```GET /delay/2000 -> waits 2s -> { message: "Hello World" }```
+
 
 ## Using k6
 <hr/>
 
-### Install k6 
+### Install k6
 https://grafana.com/docs/k6/latest/set-up/install-k6/
 <hr/>
 

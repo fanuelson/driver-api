@@ -12,4 +12,4 @@ paths:
           content:
             application/json:
               example:
-                message: "Olá, mundo!"
+                message: "Hello world!"
