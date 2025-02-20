@@ -13,8 +13,8 @@ spring:
         config:
           default:
             connectTimeout: 1000      # Tempo limite para conexão (ms)
-            readTimeout: 7000         # Tempo limite para resposta (ms)
-            loggerLevel: basic
+            readTimeout: 6000         # Tempo limite para resposta (ms)
+            loggerLevel: BASIC
 
 management:
   endpoints:
@@ -26,39 +26,60 @@ management:
     circuitbreakers.enabled: true
     ratelimiters.enabled: true
 
-resilience4j:
-  circuitbreaker:
+#logging:
+#  level:
+#    org.springframework.cloud.openfeign: DEBUG
+#    io.github.resilience4j:
+
+resilience4j.circuitbreaker:
     configs:
       default:
         registerHealthIndicator: true
-        slidingWindowSize: 8
+        slidingWindowSize: 4
+        minimumNumberOfCalls: 4
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
-        minimumNumberOfCalls: 4
         automaticTransitionFromOpenToHalfOpenEnabled: true
+        recordExceptions:
+          - java.net.SocketTimeoutException
+          - feign.RetryableException
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
     instances:
       MockApiFeignClient:
         baseConfig: default
       DelayApiFeignClient:
         baseConfig: default
-  timelimiter:
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3               # Tenta 3 vezes
+      waitDuration: 1000             # Espera 2 segundos entre tentativas
+      retryExceptions:
+        - java.net.SocketTimeoutException
+        - feign.RetryableException
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+  instances:
+    DelayApiFeignClientRetry:
+      baseConfig: default
+    DelayApiFeignClient:
+      baseConfig: default
+    DelayApiClientdelayLong:
+      baseConfig: default
+
+resilience4j.timelimiter:
     configs:
       default:
-        timeoutDuration: 5s           # Limite máximo de tempo de resposta da requisoção, se passar então Cirtuito aberto
+        timeoutDuration: 10s           # Limite máximo de tempo de resposta da requisoção
     instances:
       MockApiFeignClient:
         baseConfig: default
       DelayApiFeignClient:
         baseConfig: default
-  retry:
-    configs:
-      default:
-        max-attempts: 3               # Tenta 3 vezes
-        wait-duration: 2s             # Espera 2 segundos entre tentativas
-    instances:
-      mockApiFeignClient:
-        DelayApiFeignClient:
-          baseConfig: default
 
 
