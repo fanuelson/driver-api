@@ -13,3 +13,13 @@ paths:
             application/json:
               example:
                 message: "Hello world!"
+  /hello-error:
+    get:
+      summary: Retorna uma mensagem simples
+      responses:
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              example:
+                message: "Hello world!"

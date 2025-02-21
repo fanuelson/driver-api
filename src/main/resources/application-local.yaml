@@ -6,15 +6,22 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/driver-api-db
   cloud:
+    circuitbreaker:
+      resilience4j:
+        disable-time-limiter: true
     openfeign:
       circuitbreaker:
         enabled: true
       client:
         config:
           default:
-            connectTimeout: 1000      # Tempo limite para conexão (ms)
-            readTimeout: 6000         # Tempo limite para resposta (ms)
             loggerLevel: BASIC
+            readTimeout: 1000
+          DelayApiFeignClient:
+            url: http://localhost:4020
+            retryer: com.lab.driverapi.gateways.outputs.http.clients.delayApi.DelayApiClientRetryer
+          MockApiFeignClient:
+            url: http://localhost:4010
 
 management:
   endpoints:
@@ -26,10 +33,10 @@ management:
     circuitbreakers.enabled: true
     ratelimiters.enabled: true
 
-#logging:
-#  level:
-#    org.springframework.cloud.openfeign: DEBUG
-#    io.github.resilience4j:
+logging:
+  level:
+    org.springframework.cloud.openfeign: DEBUG
+    io.github.resilience4j: DEBUG
 
 resilience4j.circuitbreaker:
     configs:
@@ -41,12 +48,6 @@ resilience4j.circuitbreaker:
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        recordExceptions:
-          - java.net.SocketTimeoutException
-          - feign.RetryableException
-          - org.springframework.web.client.HttpServerErrorException
-          - java.util.concurrent.TimeoutException
-          - java.io.IOException
     instances:
       MockApiFeignClient:
         baseConfig: default
@@ -56,11 +57,11 @@ resilience4j.circuitbreaker:
 resilience4j.retry:
   configs:
     default:
-      maxAttempts: 3               # Tenta 3 vezes
-      waitDuration: 1000             # Espera 2 segundos entre tentativas
+      maxAttempts: 4
+      waitDuration: 3000
+      failAfterMaxAttempts: true
       retryExceptions:
         - java.net.SocketTimeoutException
-        - feign.RetryableException
         - org.springframework.web.client.HttpServerErrorException
         - java.util.concurrent.TimeoutException
         - java.io.IOException
@@ -73,9 +74,11 @@ resilience4j.retry:
       baseConfig: default
 
 resilience4j.timelimiter:
+    timeLimiterAspectOrder: 1
     configs:
       default:
-        timeoutDuration: 10s           # Limite máximo de tempo de resposta da requisoção
+        timeoutDuration: 3000           # Limite máximo de tempo de resposta da requisoção
+        cancelRunningFuture: true
     instances:
       MockApiFeignClient:
         baseConfig: default

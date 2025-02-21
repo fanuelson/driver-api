@@ -1,4 +1,4 @@
-package com.lab.driverapi.gateways.outputs.http.clients;
+package com.lab.driverapi.gateways.outputs.http.clients.mockApi;
 
 import com.lab.driverapi.gateways.outputs.http.clients.resources.responses.MockApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,14 @@ public class MockApiClientFallbackFactory implements FallbackFactory<MockApiClie
     return new MockApiClient() {
       @Override
       public MockApiResponse getHello() {
-        log.warn("Executando fallback para Client MOCK-API, exception: {}", throwable.getMessage());
+        log.warn("Executando fallback para Client MOCK-API -> hello(), exception: {}", throwable.getMessage());
         return new MockApiResponse("Hello MOCK-API client fallback");
+      }
+
+      @Override
+      public MockApiResponse getHelloError() {
+        log.warn("Executando fallback para Client MOCK-API -> helloError(), exception: {}", throwable.getMessage());
+        return new MockApiResponse("Hello Error MOCK-API client fallback");
       }
     };
   }

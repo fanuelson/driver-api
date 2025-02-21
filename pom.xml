@@ -32,6 +32,7 @@
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.springdoc.version>2.0.0</org.springdoc.version>
         <org.mockito.version>5.2.0</org.mockito.version>
+        <resilience4j-bom.version>2.3.0</resilience4j-bom.version>
     </properties>
 
     <dependencyManagement>
@@ -43,6 +44,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-circuitbreaker-dependencies</artifactId>-->
+<!--                <version>3.2.1</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+
         </dependencies>
     </dependencyManagement>
 
@@ -75,7 +85,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -93,6 +102,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <!-- Dependência principal do MapStruct -->
@@ -127,6 +141,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-spring-retry</artifactId>
         </dependency>
 
         <!-- Spring Boot Actuator (opcional para métricas) -->

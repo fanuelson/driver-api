@@ -2,7 +2,7 @@ package com.lab.driverapi.gateways.outputs.http.impl;
 
 import com.lab.driverapi.domain.mockapi.MockApiHello;
 import com.lab.driverapi.gateways.outputs.http.MockApiGateway;
-import com.lab.driverapi.gateways.outputs.http.clients.MockApiClient;
+import com.lab.driverapi.gateways.outputs.http.clients.mockApi.MockApiClient;
 import com.lab.driverapi.gateways.outputs.http.mappers.MockApiMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,4 +24,9 @@ public class MockApiGatewayImpl implements MockApiGateway {
     return mockApiMapper.toDomain(mockApiResponse);
   }
 
+  @Override
+  public MockApiHello getHelloError() {
+    val mockApiResponse = mockApiClient.getHelloError();
+    return mockApiMapper.toDomain(mockApiResponse);
+  }
 }
