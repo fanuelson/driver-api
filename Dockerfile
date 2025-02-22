@@ -27,4 +27,4 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Comando para rodar a aplicação
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-Djava.util.concurrent.ForkJoinPool.common.parallelism=2", "-Xms256m", "-Xmx512m", "-jar", "app.jar"]

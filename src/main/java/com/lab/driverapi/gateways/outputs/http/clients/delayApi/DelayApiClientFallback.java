@@ -16,7 +16,7 @@ public class DelayApiClientFallback implements FallbackFactory<DelayApiClient> {
           "Executing fallback for DELAY_API client, delay: {}, exception: {}",
           delay,
           throwable.getMessage());
-      return new DelayApiDelayResponse("Fallback response, delay: " + delay);
+      return new DelayApiDelayResponse("Hello world fallback response, delay: " + delay);
     };
   }
 }

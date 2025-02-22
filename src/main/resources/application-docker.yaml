@@ -3,15 +3,23 @@ spring:
     mongodb:
       uri: mongodb://mongo:27017/driver-api-db
   cloud:
+    circuitbreaker:
+      resilience4j:
+        disable-time-limiter: false
     openfeign:
       circuitbreaker:
         enabled: true
       client:
         config:
           default:
-            connectTimeout: 1000      # Tempo limite para conexão (ms)
-            readTimeout: 7000         # Tempo limite para resposta (ms)
-            loggerLevel: basic
+            loggerLevel: BASIC
+            readTimeout: 1000
+          DelayApiFeignClient:
+            url: http://delay-api:4020
+            retryer: com.lab.driverapi.gateways.outputs.http.clients.delayApi.DelayApiClientRetryer
+          MockApiFeignClient:
+            url: http://mock-api:4010
+
 
 management:
   endpoints:
@@ -22,44 +30,72 @@ management:
   health:
     circuitbreakers.enabled: true
     ratelimiters.enabled: true
+  elastic:
+    metrics:
+      export:
+        enabled: true
 
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        registerHealthIndicator: true
-        slidingWindowSize: 8
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10s
-        permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
-        minimumNumberOfCalls: 4
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-    instances:
-      MockApiFeignClient:
-        baseConfig: default
-      DelayApiFeignClient:
-        baseConfig: default
-  timelimiter:
-    configs:
-      default:
-        timeoutDuration: 5s           # Limite máximo de tempo de resposta da requisoção, se passar então Cirtuito aberto
-    instances:
-      MockApiFeignClient:
-        baseConfig: default
-      DelayApiFeignClient:
-        baseConfig: default
-  retry:
-    configs:
-      default:
-        max-attempts: 3               # Tenta 3 vezes
-        wait-duration: 2s             # Espera 2 segundos entre tentativas
-    instances:
-      mockApiFeignClient:
-        DelayApiFeignClient:
-          baseConfig: default
 
-management.endpoints.web.exposure.include: '*'
-management.endpoint.health.show-details: always
 
-management.health.circuitbreakers.enabled: true
-management.health.ratelimiters.enabled: true
+logging:
+  level:
+    org.springframework.cloud.openfeign: DEBUG
+    io.github.resilience4j: DEBUG
+
+
+driverapi:
+  clients:
+    delayApiClient:
+      url: http://delay-api:4020
+
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 4
+      minimumNumberOfCalls: 4
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10s
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+  instances:
+    MockApiFeignClient:
+      baseConfig: default
+    DelayApiFeignClient:
+      baseConfig: default
+    DelayApiClient:
+      baseConfig: default
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 4
+      waitDuration: 3000
+      failAfterMaxAttempts: true
+      retryExceptions:
+        - java.net.SocketTimeoutException
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+  instances:
+    DelayApiFeignClientRetry:
+      baseConfig: default
+    DelayApiFeignClient:
+      baseConfig: default
+    DelayApiClientdelayLong:
+      baseConfig: default
+
+resilience4j.rateLimiter:
+  configs:
+    default:
+      limitForPeriod: 5
+      timeoutDuration: 25
+      limitRefreshPeriod: 1
+  instances:
+    MockApiFeignClient:
+      baseConfig: default
+    DelayApiFeignClient:
+      baseConfig: default
+    DelayApiClient:
+      baseConfig: default

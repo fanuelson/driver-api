@@ -8,7 +8,7 @@ spring:
   cloud:
     circuitbreaker:
       resilience4j:
-        disable-time-limiter: true
+        disable-time-limiter: false
     openfeign:
       circuitbreaker:
         enabled: true
@@ -38,6 +38,13 @@ logging:
     org.springframework.cloud.openfeign: DEBUG
     io.github.resilience4j: DEBUG
 
+
+driverapi:
+  clients:
+    delayApiClient:
+      url: http://localhost:4020
+
+
 resilience4j.circuitbreaker:
     configs:
       default:
@@ -46,12 +53,14 @@ resilience4j.circuitbreaker:
         minimumNumberOfCalls: 4
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
-        permittedNumberOfCallsInHalfOpenState: 3 # Abre o circuito se 2 falharem (2/3 failure rate 66%)
+        permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
     instances:
       MockApiFeignClient:
         baseConfig: default
       DelayApiFeignClient:
+        baseConfig: default
+      DelayApiClient:
         baseConfig: default
 
 resilience4j.retry:
@@ -73,16 +82,16 @@ resilience4j.retry:
     DelayApiClientdelayLong:
       baseConfig: default
 
-resilience4j.timelimiter:
-    timeLimiterAspectOrder: 1
+resilience4j.rateLimiter:
     configs:
       default:
-        timeoutDuration: 3000           # Limite máximo de tempo de resposta da requisoção
-        cancelRunningFuture: true
+        limitForPeriod: 1
     instances:
       MockApiFeignClient:
         baseConfig: default
       DelayApiFeignClient:
+        baseConfig: default
+      DelayApiClient:
         baseConfig: default
 
 

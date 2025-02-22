@@ -6,8 +6,15 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
+    cpus: 1
+    cpu_count: 1
+    cpu_percent: 5
+    mem_reservation: 256MB
+    mem_limit: 256MB
     environment:
       SPRING_PROFILES_ACTIVE: docker
+    expose:
+      - "8081"
 
   mongo:
     image: mongo:8.0
