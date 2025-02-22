@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   driver-api:
     build: .
@@ -20,6 +19,8 @@ services:
     image: mongo:8.0
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb-data:/data
 
   mock-api:
     image: stoplight/prism:4
@@ -37,3 +38,7 @@ services:
       - "4020:4020"
     environment:
       PORT: 4020
+
+volumes:
+  mongodb-data:
+    driver: local
