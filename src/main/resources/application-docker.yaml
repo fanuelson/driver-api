@@ -20,6 +20,11 @@ spring:
           MockApiFeignClient:
             url: http://mock-api:4010
 
+server:
+  undertow:
+    threads:
+      io: 4
+      worker: 20
 
 management:
   endpoints:
@@ -39,7 +44,12 @@ management:
       export:
         enabled: true
 
-
+elastic:
+  apm:
+    service_name: driver-api
+    server_url: http://localhost:8200
+    application_packages: com.lab.driverapi
+    environment: local
 
 logging:
   level:

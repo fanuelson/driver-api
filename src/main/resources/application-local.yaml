@@ -23,6 +23,12 @@ spring:
           MockApiFeignClient:
             url: http://localhost:4010
 
+server:
+  undertow:
+    threads:
+      io: 4
+      worker: 20
+
 management:
   endpoints:
     web:
@@ -38,6 +44,12 @@ logging:
     org.springframework.cloud.openfeign: DEBUG
     io.github.resilience4j: DEBUG
 
+elastic:
+  apm:
+    service_name: driver-api
+    server_url: http://localhost:8200
+    application_packages: com.lab.driverapi
+    environment: local
 
 driverapi:
   clients:
@@ -85,7 +97,9 @@ resilience4j.retry:
 resilience4j.rateLimiter:
     configs:
       default:
-        limitForPeriod: 1
+        limitRefreshPeriod: 1
+        limitForPeriod: 5
+        timeoutDuration: 15
     instances:
       MockApiFeignClient:
         baseConfig: default

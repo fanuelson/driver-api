@@ -159,6 +159,12 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>co.elastic.apm</groupId>
+            <artifactId>apm-agent-attach</artifactId>
+            <version>1.47.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

@@ -39,6 +39,13 @@ services:
     environment:
       PORT: 4020
 
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
 volumes:
   mongodb-data:
     driver: local
